@@ -1,0 +1,56 @@
+Sub stock_data()
+    
+    Dim ws As Worksheet
+    
+        For Each ws In Worksheets
+        
+            'set an initial variable for holding the ticker symbol
+            Dim Ticker_Symbol As String
+        
+            'set an inital variable for holding total stock volume
+            Dim Stock_Volume As Double
+            Stock_Volume = 0
+        
+            ' Keep track of the location for each ticket symbol
+            Dim Summary_Table_Row As Integer
+            Summary_Table_Row = 2
+        
+            'determine the last row
+            LastRow = Cells(Rows.Count, 1).End(xlUp).Row
+        
+            'loop through all tickers
+            For i = 2 To LastRow
+        
+                'check if we are still within the same ticker symbol
+                If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+        
+                    'set the ticker symbol
+                    Ticker_Symbol = Cells(i, 1).Value
+        
+                    'Add to stock volume
+                    Stock_Volume = Stock_Volume + Cells(i, 7).Value
+        
+                    'Print ticker symbol in Summary Summary_Table_Row
+                    Range("I" & Summary_Table_Row).Value = Ticker_Symbol
+        
+                    'Print Stock_Volume in Summary_Table_Row
+                    Range("J" & Summary_Table_Row).Value = Stock_Volume
+        
+                    'add one to the Summary_Table_Row
+                    Summary_Table_Row = Summary_Table_Row + 1
+        
+                    'Reset Stock_Volume
+                    Stock_Volume = 0
+        
+                'if cell immediately following a row is the same brand
+                Else
+        
+                    Stock_Volume = Stock_Volume + Cells(i, 7).Value
+        
+            End If
+        
+        Next i
+        
+    Next ws
+
+End Sub
